@@ -1,4 +1,4 @@
-administer tweets configuration:
-  title: 'Administer tweets configuration'
-  description: 'Optional description.'
+configure tweets module:
+  title: 'Tweets module configuration (api credentials)'
+  description: 'Allow to view and edit the configuration'
   restrict access: true

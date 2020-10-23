@@ -4,4 +4,4 @@ tweets.settings_form:
     _title: 'Tweets settings'
     _form: 'Drupal\tweets\Form\SettingsForm'
   requirements:
-    _permission: 'administer tweets configuration'
+    _permission: 'configure tweets module'
