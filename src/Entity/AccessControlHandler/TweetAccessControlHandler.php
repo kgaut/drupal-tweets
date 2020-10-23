@@ -21,9 +21,6 @@ class TweetAccessControlHandler extends EntityAccessControlHandler {
     /** @var \Drupal\tweets\Entity\Tweet $entity */
 
     switch ($operation) {
-
-      case 'view':
-      case 'update':
       case 'delete':
         return AccessResult::allowedIfHasPermission($account, 'administer tweet entities');
     }
@@ -31,4 +28,5 @@ class TweetAccessControlHandler extends EntityAccessControlHandler {
     // Unknown operation, no opinion.
     return AccessResult::neutral();
   }
+
 }

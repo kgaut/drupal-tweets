@@ -78,9 +78,13 @@ class TweetsManager {
       $updated = 0;
       $created = 0;
       foreach ($statuses as $status) {
+        $date = new \DateTime($status->created_at, new \DateTimeZone('GMT'));
         if ($tweet = Tweet::loadByTwitterId($status->id)) {
           $tweet->set('favorite_count', $status->favorite_count);
           $tweet->set('retweet_count', $status->retweet_count);
+          $tweet->set('author', $status->user->screen_name);
+          $tweet->set('author_name', $status->user->name);
+          $tweet->set('created', $date->format('U'));
           $updated++;
         }
         else {
@@ -89,7 +93,9 @@ class TweetsManager {
             'tweet' => $status->text,
             'favorite_count' => $status->favorite_count,
             'retweet_count' => $status->retweet_count,
-            'created' => date('U', strtotime($status->created_at)),
+            'author' => $status->user->screen_name,
+            'author_name' => $status->user->author_name,
+            'created' => $date->format('U'),
           ]);
           $created++;
         }

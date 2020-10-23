@@ -18,7 +18,11 @@ class TweetListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('Tweet ID');
-    $header['name'] = $this->t('Name');
+    $header['author'] = $this->t('Author');
+    $header['name'] = $this->t('Tweet');
+    $header['retweet'] = $this->t('RT');
+    $header['likes'] = $this->t('Likes');
+    $header['created'] = $this->t('Created');
     return $header + parent::buildHeader();
   }
 
@@ -28,7 +32,11 @@ class TweetListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     /** @var \Drupal\tweets\Entity\Tweet $entity */
     $row['id'] = $entity->id();
+    $row['author'] = $entity->getAuthor();
     $row['name'] = $entity->label();
+    $row['retweet'] = $entity->getRetweetsNumber();
+    $row['likes'] = $entity->getLikesNumber();
+    $row['created'] = \Drupal::service('date.formatter')->format($entity->getCreatedTime(), 'short') ;
     return $row + parent::buildRow($entity);
   }
 

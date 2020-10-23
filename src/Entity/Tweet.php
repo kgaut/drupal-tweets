@@ -24,7 +24,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     "route_provider" = {
  *       "html" = "Drupal\tweets\Entity\HtmlRouteProvider\TweetHtmlRouteProvider",
  *     },
- *     "access" = "Drupal\tweets\AccessControlHandler\TweetAccessControlHandler",
+ *     "access" = "Drupal\tweets\Entity\AccessControlHandler\TweetAccessControlHandler",
  *   },
  *   base_table = "tweets",
  *   translatable = FALSE,
@@ -34,10 +34,9 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     "label" = "tweet",
  *   },
  *   links = {
- *     "delete-form" = "/admin/content/tweet/{tweet}/delete",
- *     "collection" = "/admin/content/tweet",
- *   },
- *   field_ui_base_route = "tweet.settings"
+ *     "delete-form" = "/admin/content/tweets/{tweet}/delete",
+ *     "collection" = "/admin/content/tweets",
+ *   }
  * )
  */
 class Tweet extends ContentEntityBase {
@@ -77,6 +76,18 @@ class Tweet extends ContentEntityBase {
     return $this;
   }
 
+  public function getRetweetsNumber() {
+    return (int) $this->get('retweet_count')->value;
+  }
+
+  public function getLikesNumber() {
+    return (int) $this->get('favorite_count')->value;
+  }
+
+  public function getAuthor() {
+    return $this->get('author')->value;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -94,6 +105,24 @@ class Tweet extends ContentEntityBase {
       ->setLabel(t('Tweet'))
       ->setDescription(t('The tweet.'))
       ->setSetting('max_length', 400)
+      ->setSetting('text_processing', 0)
+      ->setDefaultValue('')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+
+    $fields['author'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Author'))
+      ->setSetting('max_length', 50)
+      ->setSetting('text_processing', 0)
+      ->setDefaultValue('')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+
+    $fields['author_name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Author name'))
+      ->setSetting('max_length', 100)
       ->setSetting('text_processing', 0)
       ->setDefaultValue('')
       ->setDisplayConfigurable('form', TRUE)
