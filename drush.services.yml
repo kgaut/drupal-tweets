@@ -1,0 +1,7 @@
+services:
+  tweets.drush:
+    class: Drupal\tweets\Command\TweetsCommands
+    arguments:
+      - '@tweets.manager'
+    tags:
+      -  { name: drush.command }

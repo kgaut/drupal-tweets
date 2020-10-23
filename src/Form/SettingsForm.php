@@ -31,13 +31,13 @@ class SettingsForm extends ConfigFormBase {
     $config = $this->config('tweets.settings');
     $form['consumerKey'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Consumer Key'),
+      '#title' => $this->t('Consumer Key (API key)'),
       '#default_value' => $config->get('consumerKey'),
       '#required' => TRUE,
     ];
     $form['consumerSecret'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Consumer Secret'),
+      '#title' => $this->t('Consumer Secret (API secret key)'),
       '#default_value' => $config->get('consumerSecret'),
       '#required' => TRUE,
     ];
