@@ -1,5 +1,0 @@
-# Tweet routing definition
-tweet.settings_tab:
-  route_name: tweet.settings
-  title: 'Settings'
-  base_route: tweet.settings
