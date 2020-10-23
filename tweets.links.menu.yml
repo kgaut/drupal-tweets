@@ -4,3 +4,17 @@ tweets.settings_form:
   parent: system.admin_config_services
   route_name: tweets.settings_form
   weight: 10
+
+# Tweet menu items definition
+entity.tweet.collection:
+  title: 'Tweet list'
+  route_name: entity.tweet.collection
+  description: 'List Tweet entities'
+  parent: system.admin_structure
+  weight: 100
+
+tweet.admin.structure.settings:
+  title: 'Tweet settings'
+  description: 'Configure Tweet entities'
+  route_name: tweet.settings
+  parent: system.admin_structure

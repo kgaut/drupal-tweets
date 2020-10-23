@@ -2,3 +2,10 @@ configure tweets module:
   title: 'Tweets module configuration (api credentials)'
   description: 'Allow to view and edit the configuration'
   restrict access: true
+
+administer tweet entities:
+  title: 'Administer Tweet entities'
+  description: 'Allow to access the administration form to configure Tweet entities.'
+  restrict access: true
+
+

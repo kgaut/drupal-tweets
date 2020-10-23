@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\Messenger;
+use Drupal\tweets\Entity\Tweet;
 
 /**
  * TweetsManager service.
@@ -48,14 +49,23 @@ class TweetsManager {
     $this->messenger = $messenger;
     $this->logger = $loggerChannelFactory->get('Tweets');
     $config = $configFactory->get('tweets.settings');
-    try {
-      $this->twitter = new Twitter($config->get('consumerKey'), $config->get('consumerSecret'), $config->get('accessToken'), $config->get('accessTokenSecret'));
+    $consumerKey = $config->get('consumerKey');
+    $consumerSecret = $config->get('consumerSecret');
+    $accessToken = $config->get('accessToken');
+    $accessTokenSecret = $config->get('accessTokenSecret');
+    if (isset($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret)) {
+      try {
+        $this->twitter = new Twitter($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+      }
+      catch (\Exception $e) {
+        $this->logger->error(t('Twitter auth error : @message', ['@message' => $e->getMessage()]));
+      }
+      if (!$this->twitter->authenticate()) {
+        $this->logger->error(t('Twitter authentification error'));
+      }
     }
-    catch (\Exception $e) {
-      $this->logger->error(t('Twitter auth error : @message', ['@message' => $e->getMessage()]));
-    }
-    if (!$this->twitter->authenticate()) {
-      $this->logger->error(t('Twitter authentification error'));
+    else {
+      $this->logger->notice(t('Twitter credentials are not setted'));
     }
   }
 
@@ -65,6 +75,27 @@ class TweetsManager {
   public function refreshTweets() {
     try {
       $statuses = $this->twitter->load(Twitter::ME);
+      $updated = 0;
+      $created = 0;
+      foreach ($statuses as $status) {
+        if ($tweet = Tweet::loadByTwitterId($status->id)) {
+          $tweet->set('favorite_count', $status->favorite_count);
+          $tweet->set('retweet_count', $status->retweet_count);
+          $updated++;
+        }
+        else {
+          $tweet = Tweet::create([
+            'id_twitter' => $status->id,
+            'tweet' => $status->text,
+            'favorite_count' => $status->favorite_count,
+            'retweet_count' => $status->retweet_count,
+            'created' => date('U', strtotime($status->created_at)),
+          ]);
+          $created++;
+        }
+        $tweet->save();
+      }
+      $this->logger->info(t('@created Tweets created and @updated updated', ['@created' => $created, '@updated' => $updated]));
     }
     catch (\Exception $e) {
       $this->logger->error(t('Twitter refreshTweets error : @message', ['@message' => $e->getMessage()]));
