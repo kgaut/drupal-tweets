@@ -1,0 +1,24 @@
+{
+  "name": "kgaut/tweets",
+  "type": "drupal-module",
+  "description": "Twitter integration for Drupal 8+ : displays tweets of a given account",
+  "authors": [
+    {
+      "name": "Kevin Gautreau",
+      "email": "contact@kgaut.net",
+      "homepage": "https://kgaut.net",
+      "role": "Maintainer"
+    }
+  ],
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://github.com/kgaut/kgaut_tools",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://github.com/kgaut/drupal-tweets/issues",
+      "source": "https://github.com/kgaut/drupal-tweets/"
+  },
+    "require": {
+      "dg/twitter-php": "*"
+  }
+}

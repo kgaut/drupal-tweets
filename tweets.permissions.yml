@@ -1,0 +1,4 @@
+administer tweets configuration:
+  title: 'Administer tweets configuration'
+  description: 'Optional description.'
+  restrict access: true

@@ -1,0 +1,7 @@
+tweets.settings_form:
+  path: '/admin/config/system/tweets'
+  defaults:
+    _title: 'Tweets settings'
+    _form: 'Drupal\tweets\Form\SettingsForm'
+  requirements:
+    _permission: 'administer tweets configuration'

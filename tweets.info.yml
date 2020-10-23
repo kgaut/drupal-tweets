@@ -1,0 +1,6 @@
+name: Tweets
+type: module
+description: Twitter integration, display tweets of a given account
+package: Web services
+core: 8.x
+core_version_requirement: ^8 || ^9
