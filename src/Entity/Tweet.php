@@ -88,8 +88,12 @@ class Tweet extends ContentEntityBase {
     return $this->get('author')->value;
   }
 
+  public function getIdTwitter() {
+    return $this->get('id_twitter')->value;
+  }
+
   public function getTweetUrl() {
-    return 'https://twitter.com/' . $this->getAuthor() . '/status/' . $this->id();
+    return 'https://twitter.com/' . $this->getAuthor() . '/status/' . $this->getIdTwitter();
   }
 
   /**
